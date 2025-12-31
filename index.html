@@ -42,6 +42,12 @@ body{
 }
 .page.active{display:flex}
 
+/* ✅ Scrollable page (for poem) */
+.page.scrollable{
+  overflow-y:auto;
+  justify-content:flex-start;
+}
+
 input{
   padding:12px;
   font-size:1.1em;
@@ -75,7 +81,7 @@ button{
   50%{transform:scale(1.15)}
 }
 
-/* Floating sparkling hearts */
+/* Floating hearts */
 .heart{
   position:fixed;
   font-size:20px;
@@ -89,23 +95,23 @@ button{
 }
 
 @keyframes sparkle{
-  from{text-shadow: 0 0 2px #fff, 0 0 5px #ff9acb;}
-  to{text-shadow: 0 0 5px #fff, 0 0 10px #ff4d6d;}
+  from{text-shadow:0 0 2px #fff,0 0 5px #ff9acb;}
+  to{text-shadow:0 0 5px #fff,0 0 10px #ff4d6d;}
 }
 
 .poem{
   line-height:1.7;
   font-size:1.05em;
   max-width:500px;
+  margin-bottom:20px;
 }
 
 /* Polaroid Slider */
 .slider{
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:20px;
 }
 
 .slider img{
@@ -116,7 +122,7 @@ button{
   box-shadow:0 10px 20px rgba(0,0,0,0.5);
 }
 
-.prev, .next{
+.prev,.next{
   cursor:pointer;
   font-size:2em;
   color:#ff4d6d;
@@ -125,10 +131,6 @@ button{
   padding:10px 15px;
   margin:0 10px;
   border-radius:10px;
-  user-select:none;
-}
-.prev:hover, .next:hover{
-  background:rgba(255,77,109,0.8);
 }
 
 .caption{
@@ -169,8 +171,8 @@ button{
   <div class="gift" onclick="nextPage(4)">🎁</div>
 </div>
 
-<!-- PAGE 4 -->
-<div class="page" id="p4">
+<!-- PAGE 4 (Scrollable) -->
+<div class="page scrollable" id="p4">
   <h2 style="margin-bottom:15px;">
     My love my wife this poem is for you only ❤️
   </h2>
@@ -231,57 +233,48 @@ function nextPage(n){
     let name = document.getElementById("nameInput").value.trim() || "My Love";
     document.getElementById("wish").innerHTML =
       `Dear ${name}, I love you 💍<br>
-      May this New Year bring us endless happiness and love! 💖`;
+       May this New Year bring us endless happiness and love! 💖`;
     document.getElementById("bgMusic").play().catch(()=>{});
   }
 }
 
 function proposalYes(){
-  const kiss = document.getElementById("kissInput").value.trim();
-  if(kiss !== "😚"){
+  if(document.getElementById("kissInput").value.trim()!=="😚"){
     alert("Please give me a kiss 😚 first!");
     return;
   }
   nextPage(6);
 }
 
-document.addEventListener("click", e=>{
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerText = "💖";
-  heart.style.left = e.clientX + "px";
-  heart.style.top = e.clientY + "px";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(), 2000);
+document.addEventListener("click",e=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💖";
+  h.style.left=e.clientX+"px";
+  h.style.top=e.clientY+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),2000);
 });
 
-let slideIndex = 0;
-const slides = [
-  "IMG_20251231_104356_857.jpg", 
-  "IMG_20251231_104413_784.jpg", 
-  "IMG_20251231_104418_824.jpg", 
-  "IMG_20251231_110514_060.jpg", 
-  "IMG_20251231_110529_364.jpg", 
-  "IMG_20251231_104401_253.jpg", 
-  "IMG_20251231_104433_866.jpg" 
+let slideIndex=0;
+const slides=[
+ "IMG_20251231_104356_857.jpg",
+ "IMG_20251231_104413_784.jpg",
+ "IMG_20251231_104418_824.jpg",
+ "IMG_20251231_110514_060.jpg",
+ "IMG_20251231_110529_364.jpg",
+ "IMG_20251231_104401_253.jpg",
+ "IMG_20251231_104433_866.jpg"
 ];
-
-const captions = [
-  "Memory 1 💖",
-  "Memory 2 💕",
-  "Memory 3 😊",
-  "Memory 4 💫",
-  "Memory 5 ❤️",
-  "Memory 6 🌸",
-  "Memory 7 💞"
+const captions=[
+ "Memory 1 💖","Memory 2 💕","Memory 3 😊",
+ "Memory 4 💫","Memory 5 ❤️","Memory 6 🌸","Memory 7 💞"
 ];
 
 function changeSlide(n){
-  slideIndex += n;
-  if(slideIndex < 0) slideIndex = slides.length - 1;
-  if(slideIndex >= slides.length) slideIndex = 0;
-  document.getElementById("slideImg").src = slides[slideIndex];
-  document.getElementById("caption").innerText = captions[slideIndex];
+  slideIndex=(slideIndex+n+slides.length)%slides.length;
+  slideImg.src=slides[slideIndex];
+  caption.innerText=captions[slideIndex];
 }
 </script>
 
