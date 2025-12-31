@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year My Love ❤️</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #ff9a9e, #fad0c4);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+  }
+
+  h1 {
+    font-size: 3em;
+    color: white;
+    text-shadow: 0 0 20px #ff4d6d, 0 0 40px #ff4d6d;
+    animation: glow 2s infinite alternate;
+  }
+
+  h2 {
+    color: #fff;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 10px;
+    animation: fadeIn 3s ease-in-out;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d; }
+    to { text-shadow: 0 0 30px #ff99ac, 0 0 60px #ff4d6d; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .heart {
+    position: absolute;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(45deg);
+    animation: floatUp 6s linear infinite;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -10px; left: 0; }
+  .heart::after { left: -10px; top: 0; }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) rotate(45deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-800px) rotate(45deg);
+      opacity: 0;
+    }
+  }
+
+  #message {
+    color: white;
+    font-size: 1.2em;
+    width: 80%;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 20px;
+    animation: fadeIn 5s ease-in-out;
+  }
+
+  .button {
+    margin-top: 30px;
+    background: #fff;
+    color: #ff4d6d;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .button:hover {
+    background: #ff4d6d;
+    color: #fff;
+    box-shadow: 0 0 20px #ff4d6d;
+  }
+</style>
+</head>
+<body>
+
+<h1>🎆 Happy New Year My Future Wife ❤️</h1>
+<h2>To the one who’ll hold my heart forever 💞</h2>
+
+<div id="message">
+  As this new year begins, I just want to promise you —<br>
+  every sunrise will bring more love, every sunset will bring more peace,<br>
+  and every heartbeat will whisper your name. 💖<br><br>
+  I can’t wait to celebrate every New Year with you, hand in hand, forever. ✨
+</div>
+
+<button class="button" onclick="showLove()">💌 Tap for a Surprise</button>
+
+<audio id="bgMusic" loop>
+  <!-- Add your music file link here -->
+  <!-- Example: <source src="yourmusic.mp3" type="audio/mp3"> -->
+</audio>
+
+<script>
+  // Floating hearts generator
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+  setInterval(createHeart, 300);
+
+  // Surprise message + music
+  function showLove() {
+    const msg = document.getElementById('message');
+    msg.innerHTML = "💍 I can’t wait for the day I call you my wife. 💖<br>Happy New Year, my forever love! 🌙✨";
+    msg.style.fontSize = "1.4em";
+    msg.style.fontWeight = "bold";
+    const music = document.getElementById('bgMusic');
+    music.play().catch(() => alert("Please enable sound to hear the surprise ❤️"));
+  }
+</script>
+
+</body>
+</html>
