@@ -98,11 +98,41 @@ button{
   font-size:1.05em;
   max-width:500px;
 }
+
+/* Slider */
+.slider{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.slider img{
+  max-height:60vh;
+  border-radius:15px;
+  box-shadow:0 0 15px #ff4d6d;
+}
+
+.prev, .next{
+  cursor:pointer;
+  font-size:2em;
+  color:#ff4d6d;
+  background:rgba(0,0,0,0.3);
+  border:none;
+  padding:10px 15px;
+  margin:0 10px;
+  border-radius:10px;
+  user-select:none;
+}
+.prev:hover, .next:hover{
+  background:rgba(255,77,109,0.8);
+}
 </style>
 </head>
 
 <body>
-<!-- Audio: place your song file here -->
+<!-- Audio -->
 <audio id="bgMusic" loop>
   <source src="Wajah Tum Ho Hate Story 3 320 Kbps.mp3" type="audio/mp3">
 </audio>
@@ -147,30 +177,38 @@ Apni poori zindagi mere naam kar do 💍<br>
 Har subah meri baahon mein jaago 🌸<br>
 Aur hamesha ke liye meri ban jao ♾️❤️
   </div>
+  <button onclick="nextPage(5)">See Our Pictures</button>
+</div>
+
+<!-- PAGE 5: Image Slider -->
+<div class="page" id="p5">
+  <h1>Our Memories ❤️</h1>
+  <div class="slider">
+    <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+    <img id="slideImg" src="pic1.jpg">
+    <button class="next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
 </div>
 
 <script>
 let current = 1;
 
+// Page navigation
 function nextPage(n){
   document.getElementById("p"+current).classList.remove("active");
   document.getElementById("p"+n).classList.add("active");
   current = n;
 
-  // Update Page 2 wish dynamically
   if(n===2){
     let name = document.getElementById("nameInput").value.trim() || "My Love";
     document.getElementById("wish").innerHTML =
       `Dear ${name}, I love you 💍<br>
       May this New Year bring us endless happiness and love! 💖`;
-
-    // Play music as soon as page 2 opens
-    const music = document.getElementById("bgMusic");
-    music.play().catch(()=>{}); 
+    document.getElementById("bgMusic").play().catch(()=>{});
   }
 }
 
-// Hearts animation on click for all pages
+// Hearts on click
 document.addEventListener("click", e=>{
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -180,6 +218,16 @@ document.addEventListener("click", e=>{
   document.body.appendChild(heart);
   setTimeout(()=>heart.remove(), 2000);
 });
+
+// Image Slider for Page 5
+let slideIndex = 0;
+const slides = ["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg"]; // replace with your images
+function changeSlide(n){
+  slideIndex += n;
+  if(slideIndex < 0) slideIndex = slides.length - 1;
+  if(slideIndex >= slides.length) slideIndex = 0;
+  document.getElementById("slideImg").src = slides[slideIndex];
+}
 </script>
 </body>
 </html>
