@@ -99,7 +99,7 @@ button{
   max-width:500px;
 }
 
-/* Slider */
+/* Polaroid Slider */
 .slider{
   position: relative;
   display: flex;
@@ -110,8 +110,10 @@ button{
 
 .slider img{
   max-height:60vh;
-  border-radius:15px;
-  box-shadow:0 0 15px #ff4d6d;
+  border-radius:10px;
+  background:white;
+  padding:10px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.5);
 }
 
 .prev, .next{
@@ -127,6 +129,13 @@ button{
 }
 .prev:hover, .next:hover{
   background:rgba(255,77,109,0.8);
+}
+
+.caption{
+  color:#333;
+  font-size:0.9em;
+  margin-top:5px;
+  font-weight:bold;
 }
 </style>
 </head>
@@ -177,16 +186,18 @@ Apni poori zindagi mere naam kar do 💍<br>
 Har subah meri baahon mein jaago 🌸<br>
 Aur hamesha ke liye meri ban jao ♾️❤️
   </div>
-  <!-- Button to go to Page 5 -->
   <button onclick="nextPage(5)">See Our Pictures</button>
 </div>
 
-<!-- PAGE 5: Image Slider -->
+<!-- PAGE 5: Polaroid Image Slider -->
 <div class="page" id="p5">
   <h1>Our Memories ❤️</h1>
   <div class="slider">
     <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
-    <img id="slideImg" src="pic1.jpg">
+    <div style="text-align:center;">
+      <img id="slideImg" src="pic1.jpg">
+      <div id="caption" class="caption">Our First Memory 💖</div>
+    </div>
     <button class="next" onclick="changeSlide(1)">&#10095;</button>
   </div>
 </div>
@@ -200,7 +211,6 @@ function nextPage(n){
   document.getElementById("p"+n).classList.add("active");
   current = n;
 
-  // Play music and update Page 2
   if(n===2){
     let name = document.getElementById("nameInput").value.trim() || "My Love";
     document.getElementById("wish").innerHTML =
@@ -224,11 +234,20 @@ document.addEventListener("click", e=>{
 // Image Slider for Page 5
 let slideIndex = 0;
 const slides = ["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg"]; // replace with your images
+const captions = [
+  "Our First Memory 💖",
+  "Cute Moment 😊",
+  "Fun Together 🎉",
+  "Romantic Night 🌙",
+  "Forever Us ♾️"
+];
+
 function changeSlide(n){
   slideIndex += n;
   if(slideIndex < 0) slideIndex = slides.length - 1;
   if(slideIndex >= slides.length) slideIndex = 0;
   document.getElementById("slideImg").src = slides[slideIndex];
+  document.getElementById("caption").innerText = captions[slideIndex];
 }
 </script>
 </body>
