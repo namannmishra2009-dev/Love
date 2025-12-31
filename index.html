@@ -15,11 +15,12 @@ body{
   color:white;
 }
 
-/* ⭐ Stars */
+/* ⭐ Stars background */
 .stars{
   position:fixed;
   inset:0;
   background:url("https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/star.png");
+  background-size:contain;
   animation:moveStars 60s linear infinite;
   z-index:-1;
 }
@@ -74,7 +75,7 @@ button{
   50%{transform:scale(1.15)}
 }
 
-/* Hearts on click */
+/* Floating hearts */
 .heart{
   position:fixed;
   font-size:20px;
@@ -105,19 +106,19 @@ button{
   <button onclick="nextPage(2)">Next</button>
 </div>
 
-<!-- PAGE 2 -->
+<!-- PAGE 2: Happy New Year wish -->
 <div class="page" id="p2">
   <h1>Happy New Year 🎆</h1>
   <h2 id="wish"></h2>
   <button onclick="nextPage(3)">Next</button>
 </div>
 
-<!-- PAGE 3 -->
+<!-- PAGE 3: Gift box -->
 <div class="page" id="p3">
   <div class="gift" onclick="nextPage(4)">🎁</div>
 </div>
 
-<!-- PAGE 4 -->
+<!-- PAGE 4: Romantic Poem -->
 <div class="page" id="p4">
   <div class="poem">
 Naye saal ki pehli raat ho 🌙<br>
@@ -138,32 +139,32 @@ Aur hamesha ke liye meri ban jao ♾️❤️
 </div>
 
 <script>
-let current=1;
+let current = 1;
 
 function nextPage(n){
+  // Move between pages
   document.getElementById("p"+current).classList.remove("active");
   document.getElementById("p"+n).classList.add("active");
-  current=n;
+  current = n;
 
-  // Update wish dynamically
+  // Update Page 2 wish dynamically
   if(n===2){
-    let name=document.getElementById("nameInput").value.trim()||"My Love";
-    document.getElementById("wish").innerHTML=
-      `Dear ${name}, I love you 💍<br>May this New Year bring us endless happiness and love! 💖`;
+    let name = document.getElementById("nameInput").value.trim() || "My Love";
+    document.getElementById("wish").innerHTML =
+      `Dear ${name}, I love you 💍<br>
+      May this New Year bring us endless happiness and love! 💖`;
   }
 }
 
-// ❤️ Hearts on click
-document.addEventListener("click",e=>{
-  if(current>=2){ // only on pages 2,3,4
-    const heart=document.createElement("div");
-    heart.className="heart";
-    heart.innerText="💖";
-    heart.style.left=e.clientX+"px";
-    heart.style.top=e.clientY+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),2000);
-  }
+// Floating hearts on all pages
+document.addEventListener("click", e=>{
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💖";
+  heart.style.left = e.clientX + "px";
+  heart.style.top = e.clientY + "px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(), 2000);
 });
 </script>
 </body>
