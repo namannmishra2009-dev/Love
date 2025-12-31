@@ -60,6 +60,7 @@ button{
   font-size:1em;
   background:#ff4d6d;
   color:white;
+  cursor:pointer;
 }
 
 /* Gift */
@@ -144,22 +145,25 @@ function nextPage(n){
   document.getElementById("p"+n).classList.add("active");
   current=n;
 
+  // Update wish dynamically
   if(n===2){
-    let name=document.getElementById("nameInput").value||"My Love";
-    document.getElementById("wish").innerText=
-      name+", may this New Year be as beautiful as your smile 💖";
+    let name=document.getElementById("nameInput").value.trim()||"My Love";
+    document.getElementById("wish").innerHTML=
+      `Dear ${name}, I love you 💍<br>May this New Year bring us endless happiness and love! 💖`;
   }
 }
 
-/* ❤️ Hearts click FIXED */
+// ❤️ Hearts on click
 document.addEventListener("click",e=>{
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.innerText="❤️";
-  heart.style.left=e.clientX+"px";
-  heart.style.top=e.clientY+"px";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),2000);
+  if(current>=2){ // only on pages 2,3,4
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerText="💖";
+    heart.style.left=e.clientX+"px";
+    heart.style.top=e.clientY+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),2000);
+  }
 });
 </script>
 </body>
