@@ -75,16 +75,22 @@ button{
   50%{transform:scale(1.15)}
 }
 
-/* Floating hearts */
+/* Floating sparkling hearts */
 .heart{
   position:fixed;
   font-size:20px;
-  animation:floatUp 2s ease-out forwards;
+  animation:floatUp 2s ease-out forwards, sparkle 0.5s infinite alternate;
   pointer-events:none;
 }
+
 @keyframes floatUp{
   0%{opacity:1;transform:translateY(0) scale(1)}
   100%{opacity:0;transform:translateY(-120px) scale(1.8)}
+}
+
+@keyframes sparkle{
+  from{text-shadow: 0 0 2px #fff, 0 0 5px #ff9acb;}
+  to{text-shadow: 0 0 5px #fff, 0 0 10px #ff4d6d;}
 }
 
 .poem{
@@ -96,6 +102,11 @@ button{
 </head>
 
 <body>
+<!-- Audio: place your song file here -->
+<audio id="bgMusic" loop>
+  <source src="YOUR_MUSIC_FILE.mp3" type="audio/mp3">
+</audio>
+
 <div class="stars"></div>
 
 <!-- PAGE 1 -->
@@ -142,7 +153,6 @@ Aur hamesha ke liye meri ban jao ♾️❤️
 let current = 1;
 
 function nextPage(n){
-  // Move between pages
   document.getElementById("p"+current).classList.remove("active");
   document.getElementById("p"+n).classList.add("active");
   current = n;
@@ -153,10 +163,14 @@ function nextPage(n){
     document.getElementById("wish").innerHTML =
       `Dear ${name}, I love you 💍<br>
       May this New Year bring us endless happiness and love! 💖`;
+
+    // Play music as soon as page 2 opens
+    const music = document.getElementById("bgMusic");
+    music.play().catch(()=>{}); 
   }
 }
 
-// Floating hearts on all pages
+// Hearts animation on click for all pages
 document.addEventListener("click", e=>{
   const heart = document.createElement("div");
   heart.className = "heart";
