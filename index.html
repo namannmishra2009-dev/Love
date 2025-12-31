@@ -2,15 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy New Year My Love ❤️</title>
+<title>Happy New Year ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+
 body{
-  background:#000;
-  color:white;
+  height:100vh;
   overflow:hidden;
+  background:radial-gradient(circle at top,#2b1055,#0b0220);
+  color:white;
 }
+
+/* Stars */
+.stars{
+  position:fixed;
+  inset:0;
+  background:url("https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/star.png");
+  background-size:contain;
+  animation:moveStars 60s linear infinite;
+  z-index:-2;
+}
+@keyframes moveStars{
+  from{background-position:0 0}
+  to{background-position:-1000px 1000px}
+}
+
+/* Pages */
 .page{
   position:absolute;
   inset:0;
@@ -22,223 +41,242 @@ body{
   text-align:center;
 }
 .page.active{display:flex}
+
+/* Scrollable poem page */
 .page.scrollable{
   overflow-y:auto;
   justify-content:flex-start;
+  padding-bottom:40px;
 }
 
-/* Stars */
-.stars{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background:black;
-  overflow:hidden;
+input{
+  padding:12px;
+  font-size:1.1em;
+  border-radius:20px;
+  border:none;
+  margin-top:15px;
+  width:80%;
+  max-width:300px;
 }
-.star{
-  position:absolute;
-  width:2px;height:2px;
-  background:white;
-  animation:twinkle 2s infinite alternate;
-}
-@keyframes twinkle{to{opacity:0.3}}
 
-/* Buttons */
 button{
   margin-top:20px;
-  padding:12px 25px;
+  padding:12px 30px;
   border:none;
   border-radius:30px;
+  font-size:1em;
   background:#ff4d6d;
   color:white;
-  font-size:16px;
   cursor:pointer;
 }
 
 /* Gift */
 .gift{
-  font-size:80px;
+  font-size:5rem;
   cursor:pointer;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+  50%{transform:scale(1.15)}
 }
 
 /* Hearts */
 .heart{
   position:fixed;
-  font-size:20px;
-  animation:float 2s forwards;
+  font-size:22px;
+  animation:floatUp 2s ease-out forwards;
+  pointer-events:none;
 }
-@keyframes float{
-  to{transform:translateY(-150px);opacity:0}
+@keyframes floatUp{
+  to{opacity:0;transform:translateY(-120px) scale(1.8)}
 }
 
-/* Polaroid slider */
+/* Poem */
+.poem{
+  margin-top:20px;
+  line-height:1.7;
+  font-size:1.05em;
+  max-width:520px;
+}
+
+/* Slider */
 .slider{
   display:flex;
-  gap:20px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
+  align-items:center;
+  gap:10px;
 }
 .slider img{
-  width:250px;
-  height:300px;
-  object-fit:cover;
+  max-height:60vh;
   background:white;
-  padding:10px 10px 40px;
-  border-radius:8px;
-  scroll-snap-align:center;
+  padding:10px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+.prev,.next{
+  font-size:2em;
+  background:rgba(0,0,0,0.4);
+  color:#ff4d6d;
+  border:none;
+  padding:10px;
+  border-radius:10px;
 }
 
 /* Fireworks canvas */
-canvas{
+#fireworks{
   position:fixed;
   inset:0;
   pointer-events:none;
+  z-index:-1;
 }
 </style>
 </head>
 
 <body>
 
-<div class="stars"></div>
-<canvas id="fireworks"></canvas>
+<audio id="music" loop>
+  <source src="Wajah Tum Ho Hate Story 3 320 Kbps.mp3" type="audio/mp3">
+</audio>
 
-<audio id="music" src="Wajah Tum Ho Hate Story 3 320 Kbps.mp3"></audio>
+<canvas id="fireworks"></canvas>
+<div class="stars"></div>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
-  <h2>Enter Your Beautiful Name 💖</h2>
-  <input id="nameInput" placeholder="Your name"
-    style="padding:10px;border-radius:20px;border:none;margin-top:15px">
+  <h1>Hey ❤️</h1>
+  <p>Write your beautiful name</p>
+  <input id="nameInput" placeholder="Your name">
   <button onclick="goTo(2,true)">Next</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <h1>Happy New Year 🎉</h1>
-  <h2 id="loveText"></h2>
+  <h1>Happy New Year 🎆</h1>
+  <h2 id="wishText"></h2>
   <button onclick="goTo(3)">Next</button>
 </div>
 
 <!-- PAGE 3 -->
 <div class="page" id="p3">
-  <h3>Tap the gift 🎁 to unlock something special</h3>
+  <p>Tap the gift 🎁 to open something special</p>
   <div class="gift" onclick="goTo(4)">🎁</div>
 </div>
 
 <!-- PAGE 4 -->
 <div class="page scrollable" id="p4">
   <h2>My love my wife this poem is for you only ❤️</h2>
-  <p style="margin-top:20px;line-height:1.8">
+  <div class="poem">
 Naye saal ki pehli raat ho 🌙<br>
 Aur meri baahon mein sirf tum ho 🤍<br>
 Tumhari saanson ki garmi mein,<br>
-Meri poori duniya gum ho 💫<br>
+Meri poori duniya gum ho 💫<br><br>
+
 Tumhara chehra itna paas ho 😊<br>
 Ke alfaaz bhi sharma jaayein 🙈<br>
 Honth dheere se chhoo lein ek-dooje ko 💞<br>
 Aur waqt wahi thamm jaaye ⏳<br><br>
+
 Is naye saal main tumse bas itna kahun 💖<br>
 Apni poori zindagi mere naam kar do 💍<br>
 Har subah meri baahon mein jaago 🌸<br>
 Aur hamesha ke liye meri ban jao ♾️❤️
-  </p>
+  </div>
   <button onclick="goTo(5)">Next</button>
 </div>
 
 <!-- PAGE 5 -->
 <div class="page" id="p5">
-  <h2>Will you be my wife forever? 💍</h2>
-  <input placeholder="Give me a kiss 😚"
-    style="padding:10px;border-radius:20px;border:none;margin-top:15px">
-  <button onclick="goTo(6)">Yes</button>
-  <button onclick="goTo(6)">Definitely Yes</button>
+  <h1>Will you be my wife forever? 💍</h1>
+  <p>Give me a kiss 😚</p>
+  <input id="kissInput" placeholder="Type 😚">
+  <button onclick="checkKiss()">Yes / Definitely Yes</button>
 </div>
 
-<!-- PAGE 6 -->
+<!-- PAGE 6 (NEW PAGE YOU ASKED) -->
 <div class="page" id="p6">
   <h2>I really love you ❤️</h2>
   <h3>I want to stay with u always</h3>
-  <button onclick="goTo(7,true)">Next</button>
+  <button onclick="goTo(7)">Next</button>
 </div>
 
-<!-- PAGE 7 -->
+<!-- PAGE 7 PHOTOS -->
 <div class="page" id="p7">
-  <h2>Our Memories 📸</h2>
+  <h2>Our Memories ❤️</h2>
   <div class="slider">
-    <img src="IMG_20251231_104356_857.jpg">
-    <img src="IMG_20251231_104413_784.jpg">
-    <img src="IMG_20251231_104418_824.jpg">
-    <img src="IMG_20251231_104433_866.jpg">
-    <img src="IMG_20251231_110514_060.jpg">
-    <img src="IMG_20251231_110529_364.jpg">
-    <img src="IMG_20251231_104401_253.jpg">
+    <button class="prev" onclick="slide(-1)">❮</button>
+    <img id="slideImg" src="IMG_20251231_104356_857.jpg">
+    <button class="next" onclick="slide(1)">❯</button>
   </div>
 </div>
 
 <script>
-/* Stars */
-for(let i=0;i<120;i++){
-  let s=document.createElement('div');
-  s.className='star';
-  s.style.top=Math.random()*100+'%';
-  s.style.left=Math.random()*100+'%';
-  s.style.animationDuration=1+Math.random()*2+'s';
-  document.querySelector('.stars').appendChild(s);
+let slides=[
+"IMG_20251231_104356_857.jpg",
+"IMG_20251231_104413_784.jpg",
+"IMG_20251231_104418_824.jpg",
+"IMG_20251231_110514_060.jpg",
+"IMG_20251231_110529_364.jpg",
+"IMG_20251231_104401_253.jpg",
+"IMG_20251231_104433_866.jpg"
+];
+let index=0;
+
+function slide(n){
+  index=(index+n+slides.length)%slides.length;
+  document.getElementById("slideImg").src=slides[index];
 }
 
-/* Navigation */
 function goTo(n,play){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('p'+n).classList.add('active');
-  if(play){
-    document.getElementById('music').play();
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("p"+n).classList.add("active");
+
+  if(n===2){
+    let name=document.getElementById("nameInput").value||"My Love";
+    document.getElementById("wishText").innerHTML=
+    `I love you ${name} 💍<br>May this New Year bring us forever together ❤️`;
+    if(play) document.getElementById("music").play();
+  }
+
+  if(n===7){
     startFireworks();
   }
-  if(n===2){
-    let name=document.getElementById('nameInput').value;
-    document.getElementById('loveText').innerHTML=
-      `I love you ${name} 💍`;
+}
+
+function checkKiss(){
+  if(document.getElementById("kissInput").value!=="😚"){
+    alert("Give me a kiss 😚 first");
+    return;
   }
+  goTo(6);
 }
 
 /* Hearts */
-document.addEventListener('click',e=>{
-  let h=document.createElement('div');
-  h.className='heart';
-  h.innerText='❤️';
-  h.style.left=e.clientX+'px';
-  h.style.top=e.clientY+'px';
+document.addEventListener("click",e=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.textContent="💖";
+  h.style.left=e.clientX+"px";
+  h.style.top=e.clientY+"px";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),2000);
 });
 
 /* Fireworks */
-const canvas=document.getElementById('fireworks');
-const ctx=canvas.getContext('2d');
-canvas.width=innerWidth;canvas.height=innerHeight;
-let particles=[];
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth; canvas.height=innerHeight;
+
 function startFireworks(){
-  for(let i=0;i<100;i++){
-    particles.push({
-      x:Math.random()*canvas.width,
-      y:Math.random()*canvas.height,
-      vx:(Math.random()-0.5)*5,
-      vy:(Math.random()-0.5)*5,
-      life:60
-    });
-  }
+  setInterval(()=>{
+    let x=Math.random()*canvas.width;
+    let y=Math.random()*canvas.height/2;
+    for(let i=0;i<30;i++){
+      ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
+      ctx.beginPath();
+      ctx.arc(x+Math.random()*100-50,y+Math.random()*100-50,2,0,Math.PI*2);
+      ctx.fill();
+    }
+  },600);
 }
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    ctx.fillStyle='white';
-    ctx.fillRect(p.x,p.y,2,2);
-    p.x+=p.vx;p.y+=p.vy;p.life--;
-  });
-  particles=particles.filter(p=>p.life>0);
-  requestAnimationFrame(animate);
-}
-animate();
 </script>
 
 </body>
