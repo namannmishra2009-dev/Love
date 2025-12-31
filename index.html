@@ -2,251 +2,165 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy New Year ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+
 body{
-  margin:0;
   height:100vh;
-  font-family:"Poppins",sans-serif;
   overflow:hidden;
-  background:#000;
+  background:radial-gradient(circle at top,#2b1055,#0b0220);
+  color:white;
 }
 
-.screen{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  text-align:center;
-  padding:20px;
-  transition:opacity 1s ease;
-}
-
-.hidden{
-  opacity:0;
-  pointer-events:none;
-}
-
-/* MOON TRANSITION */
-#moonOverlay{
+/* ⭐ Stars */
+.stars{
   position:fixed;
   inset:0;
-  background:radial-gradient(circle at center, #fff 0%, #ddd 20%, #555 40%, #000 70%);
-  display:flex;
-  justify-content:center;
+  background:url("https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/star.png");
+  animation:moveStars 60s linear infinite;
+  z-index:-1;
+}
+@keyframes moveStars{
+  from{background-position:0 0}
+  to{background-position:-1000px 1000px}
+}
+
+/* Pages */
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  flex-direction:column;
   align-items:center;
-  opacity:0;
-  pointer-events:none;
-  z-index:999;
+  justify-content:center;
+  padding:20px;
+  text-align:center;
 }
-
-.moon{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 0 30px #fff, 0 0 60px #fff;
-  animation:moonGlow 3s ease;
-}
-
-@keyframes moonGlow{
-  0%{transform:scale(0.6);opacity:0;}
-  50%{transform:scale(1);opacity:1;}
-  100%{transform:scale(1.2);opacity:0;}
-}
-
-/* SCREEN 1 */
-#inputScreen{
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
-}
-
-.box{
-  background:white;
-  padding:30px;
-  border-radius:20px;
-  width:85%;
-  max-width:350px;
-}
+.page.active{display:flex}
 
 input{
-  width:90%;
   padding:12px;
-  border-radius:25px;
-  border:1px solid #ddd;
-  text-align:center;
+  font-size:1.1em;
+  border-radius:20px;
+  border:none;
+  outline:none;
+  margin-top:15px;
+  width:80%;
+  max-width:300px;
 }
 
 button{
   margin-top:20px;
-  padding:12px 30px;
+  padding:12px 28px;
   border:none;
-  border-radius:25px;
+  border-radius:30px;
+  font-size:1em;
   background:#ff4d6d;
   color:white;
-  cursor:pointer;
 }
 
-/* SCREEN 2 */
-#giftScreen{
-  background:radial-gradient(circle at top,#ff9a9e,#fad0c4);
-}
-
+/* Gift */
 .gift{
-  font-size:6rem;
+  font-size:5rem;
   cursor:pointer;
-  animation:bounce 1.5s infinite;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.15)}
 }
 
-@keyframes bounce{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-15px);}
+/* Hearts on click */
+.heart{
+  position:fixed;
+  font-size:20px;
+  animation:floatUp 2s ease-out forwards;
+  pointer-events:none;
 }
-
-/* SCREEN 3 */
-#poemScreen{
-  background:radial-gradient(circle at bottom,#0f2027,#203a43,#2c5364);
-  color:white;
+@keyframes floatUp{
+  0%{opacity:1;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(-120px) scale(1.8)}
 }
 
 .poem{
-  max-width:700px;
-  font-size:1.15em;
-  line-height:1.8;
-  white-space:pre-line;
-  z-index:2;
-}
-
-/* STARS */
-.star{
-  position:absolute;
-  background:white;
-  border-radius:50%;
-  animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-  from{opacity:0.3;}
-  to{opacity:1;}
-}
-
-/* TAP HEARTS */
-.tap-heart{
-  position:absolute;
-  font-size:1.5rem;
-  animation:rise 2s ease-out forwards;
-  pointer-events:none;
-}
-
-@keyframes rise{
-  from{transform:translateY(0) scale(1);opacity:1;}
-  to{transform:translateY(-120px) scale(1.8);opacity:0;}
+  line-height:1.7;
+  font-size:1.05em;
+  max-width:500px;
 }
 </style>
 </head>
+
 <body>
+<div class="stars"></div>
 
-<!-- MOON OVERLAY -->
-<div id="moonOverlay">
-  <div class="moon"></div>
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>Hey ❤️</h1>
+  <p>Write your beautiful name</p>
+  <input id="nameInput" placeholder="Your name">
+  <button onclick="nextPage(2)">Next</button>
 </div>
 
-<!-- MUSIC -->
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_91c6b45f52.mp3">
-</audio>
-
-<!-- SCREEN 1 -->
-<div class="screen" id="inputScreen">
-  <div class="box">
-    <h2>Hello Beautiful ❤️</h2>
-    <input id="nameInput" placeholder="Your name 💖">
-    <br>
-    <button onclick="transition(goToGift)">Next ➜</button>
-  </div>
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h1>Happy New Year 🎆</h1>
+  <h2 id="wish"></h2>
+  <button onclick="nextPage(3)">Next</button>
 </div>
 
-<!-- SCREEN 2 -->
-<div class="screen hidden" id="giftScreen">
-  <div class="gift" onclick="transition(openGift)">🎁</div>
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <div class="gift" onclick="nextPage(4)">🎁</div>
 </div>
 
-<!-- SCREEN 3 -->
-<div class="screen hidden" id="poemScreen">
+<!-- PAGE 4 -->
+<div class="page" id="p4">
   <div class="poem">
-Naye saal ki pehli raat ho 🌙  
-Aur meri baahon mein sirf tum ho 🤍  
+Naye saal ki pehli raat ho 🌙<br>
+Aur meri baahon mein sirf tum ho 🤍<br>
+Tumhari saanson ki garmi mein,<br>
+Meri poori duniya gum ho 💫<br><br>
 
-Tumhari saanson ki garmi mein,  
-Meri poori duniya gum ho 💫  
+Tumhara chehra itna paas ho 😊<br>
+Ke alfaaz bhi sharma jaayein 🙈<br>
+Honth dheere se chhoo lein ek-dooje ko 💞<br>
+Aur waqt wahi thamm jaaye ⏳<br><br>
 
-Tumhara chehra itna paas ho 😊  
-Ke alfaaz bhi sharma jaayein 🙈  
-
-Honth dheere se chhoo lein ek-dooje ko 💞  
-Aur waqt wahi thamm jaaye ⏳  
-
-Is naye saal main tumse bas itna kahun 💖  
-Apni poori zindagi mere naam kar do 💍  
-
-Har subah meri baahon mein jaago 🌸  
+Is naye saal main tumse bas itna kahun 💖<br>
+Apni poori zindagi mere naam kar do 💍<br>
+Har subah meri baahon mein jaago 🌸<br>
 Aur hamesha ke liye meri ban jao ♾️❤️
   </div>
 </div>
 
 <script>
-function transition(callback){
-  moonOverlay.style.opacity="1";
-  setTimeout(()=>{
-    moonOverlay.style.opacity="0";
-    callback();
-  },3000);
-}
+let current=1;
 
-function goToGift(){
-  if(!nameInput.value.trim()){
-    alert("Please enter your name ❤️");
-    return;
-  }
-  inputScreen.classList.add("hidden");
-  giftScreen.classList.remove("hidden");
-}
+function nextPage(n){
+  document.getElementById("p"+current).classList.remove("active");
+  document.getElementById("p"+n).classList.add("active");
+  current=n;
 
-function openGift(){
-  giftScreen.classList.add("hidden");
-  poemScreen.classList.remove("hidden");
-  bgMusic.play().catch(()=>{});
-  createStars();
-}
-
-function createStars(){
-  for(let i=0;i<120;i++){
-    const s=document.createElement("div");
-    s.className="star";
-    const size=Math.random()*2+1;
-    s.style.width=size+"px";
-    s.style.height=size+"px";
-    s.style.left=Math.random()*100+"vw";
-    s.style.top=Math.random()*100+"vh";
-    poemScreen.appendChild(s);
+  if(n===2){
+    let name=document.getElementById("nameInput").value||"My Love";
+    document.getElementById("wish").innerText=
+      name+", may this New Year be as beautiful as your smile 💖";
   }
 }
 
+/* ❤️ Hearts click FIXED */
 document.addEventListener("click",e=>{
-  if(!poemScreen.classList.contains("hidden")){
-    const h=document.createElement("div");
-    h.className="tap-heart";
-    h.innerHTML="💖";
-    h.style.left=e.clientX+"px";
-    h.style.top=e.clientY+"px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),2000);
-  }
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerText="❤️";
+  heart.style.left=e.clientX+"px";
+  heart.style.top=e.clientY+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),2000);
 });
 </script>
-
 </body>
 </html>
