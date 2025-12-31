@@ -234,22 +234,23 @@ document.addEventListener("click", e=>{
 // Image Slider for Page 5
 let slideIndex = 0;
 const slides = [
-  "IMG_20251231_104356_857.jpg",
-  "IMG_20251231_104413_784.jpg",
-  "IMG_20251231_104418_824.jpg",
-  "IMG_20251231_110514_060.jpg",
-  "IMG_20251231_110529_364.jpg",
-  "IMG_20251231_104401_253.jpg",
-  "IMG_20251231_104433_866.jpg"
+  "IMG_20251231_104356_857.jpg", // 1
+  "IMG_20251231_104413_784.jpg", // 2
+  "IMG_20251231_104418_824.jpg", // 3
+  "IMG_20251231_110514_060.jpg", // 6 -> moved up
+  "IMG_20251231_110529_364.jpg", // 7 -> moved up
+  "IMG_20251231_104401_253.jpg", // 4 -> last
+  "IMG_20251231_104433_866.jpg"  // 5 -> last
 ];
+
 const captions = [
   "Memory 1 💖",
   "Memory 2 💕",
   "Memory 3 😊",
-  "Memory 4 🌸",
-  "Memory 5 💞",
-  "Memory 6 💫",
-  "Memory 7 ❤️"
+  "Memory 4 💫",
+  "Memory 5 ❤️",
+  "Memory 6 🌸",
+  "Memory 7 💞"
 ];
 
 function changeSlide(n){
