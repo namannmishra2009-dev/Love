@@ -186,11 +186,22 @@ Apni poori zindagi mere naam kar do 💍<br>
 Har subah meri baahon mein jaago 🌸<br>
 Aur hamesha ke liye meri ban jao ♾️❤️
   </div>
-  <button onclick="nextPage(5)">See Our Pictures</button>
+  <button onclick="nextPage(5)">Next</button>
 </div>
 
-<!-- PAGE 5: Polaroid Image Slider -->
+<!-- PAGE 5: Proposal page -->
 <div class="page" id="p5">
+  <h1>Will you be my wife forever? 😍</h1>
+  <p>Give me a kiss 😚</p>
+  <input id="kissInput" placeholder="Type 😚 here">
+  <div style="margin-top:20px;">
+    <button onclick="proposalYes()">Yes</button>
+    <button onclick="proposalYes()">Definitely Yes</button>
+  </div>
+</div>
+
+<!-- PAGE 6: Polaroid Image Slider -->
+<div class="page" id="p6">
   <h1>Our Memories ❤️</h1>
   <div class="slider">
     <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
@@ -220,6 +231,16 @@ function nextPage(n){
   }
 }
 
+// Proposal yes button
+function proposalYes(){
+  const kiss = document.getElementById("kissInput").value.trim();
+  if(kiss !== "😚"){
+    alert("Please give me a kiss 😚 first!");
+    return;
+  }
+  nextPage(6); // Go to photo page
+}
+
 // Hearts on click
 document.addEventListener("click", e=>{
   const heart = document.createElement("div");
@@ -231,16 +252,16 @@ document.addEventListener("click", e=>{
   setTimeout(()=>heart.remove(), 2000);
 });
 
-// Image Slider for Page 5
+// Image Slider for Page 6
 let slideIndex = 0;
 const slides = [
-  "IMG_20251231_104356_857.jpg", // 1
-  "IMG_20251231_104413_784.jpg", // 2
-  "IMG_20251231_104418_824.jpg", // 3
-  "IMG_20251231_110514_060.jpg", // 6 -> moved up
-  "IMG_20251231_110529_364.jpg", // 7 -> moved up
-  "IMG_20251231_104401_253.jpg", // 4 -> last
-  "IMG_20251231_104433_866.jpg"  // 5 -> last
+  "IMG_20251231_104356_857.jpg", 
+  "IMG_20251231_104413_784.jpg", 
+  "IMG_20251231_104418_824.jpg", 
+  "IMG_20251231_110514_060.jpg", 
+  "IMG_20251231_110529_364.jpg", 
+  "IMG_20251231_104401_253.jpg", 
+  "IMG_20251231_104433_866.jpg" 
 ];
 
 const captions = [
