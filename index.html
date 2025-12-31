@@ -177,6 +177,7 @@ Apni poori zindagi mere naam kar do 💍<br>
 Har subah meri baahon mein jaago 🌸<br>
 Aur hamesha ke liye meri ban jao ♾️❤️
   </div>
+  <!-- Button to go to Page 5 -->
   <button onclick="nextPage(5)">See Our Pictures</button>
 </div>
 
@@ -199,6 +200,7 @@ function nextPage(n){
   document.getElementById("p"+n).classList.add("active");
   current = n;
 
+  // Play music and update Page 2
   if(n===2){
     let name = document.getElementById("nameInput").value.trim() || "My Love";
     document.getElementById("wish").innerHTML =
