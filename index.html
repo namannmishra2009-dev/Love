@@ -42,7 +42,6 @@ body{
 }
 .page.active{display:flex}
 
-/* Scrollable poem page */
 .page.scrollable{
   overflow-y:auto;
   justify-content:flex-start;
@@ -67,7 +66,6 @@ button{
   font-size:1em;
   background:#ff4d6d;
   color:white;
-  cursor:pointer;
 }
 
 /* Gift */
@@ -76,9 +74,7 @@ button{
   cursor:pointer;
   animation:pulse 1.5s infinite;
 }
-@keyframes pulse{
-  50%{transform:scale(1.15)}
-}
+@keyframes pulse{50%{transform:scale(1.15)}}
 
 /* Hearts */
 .heart{
@@ -121,7 +117,7 @@ button{
   border-radius:10px;
 }
 
-/* Fireworks canvas */
+/* Fireworks */
 #fireworks{
   position:fixed;
   inset:0;
@@ -157,7 +153,7 @@ button{
 
 <!-- PAGE 3 -->
 <div class="page" id="p3">
-  <p>Tap the gift 🎁 to open something special</p>
+  <p>Tap the gift 🎁 to open it</p>
   <div class="gift" onclick="goTo(4)">🎁</div>
 </div>
 
@@ -191,14 +187,14 @@ Aur hamesha ke liye meri ban jao ♾️❤️
   <button onclick="checkKiss()">Yes / Definitely Yes</button>
 </div>
 
-<!-- PAGE 6 (NEW PAGE YOU ASKED) -->
+<!-- PAGE 6 -->
 <div class="page" id="p6">
   <h2>I really love you ❤️</h2>
   <h3>I want to stay with u always</h3>
   <button onclick="goTo(7)">Next</button>
 </div>
 
-<!-- PAGE 7 PHOTOS -->
+<!-- PAGE 7 -->
 <div class="page" id="p7">
   <h2>Our Memories ❤️</h2>
   <div class="slider">
@@ -209,22 +205,7 @@ Aur hamesha ke liye meri ban jao ♾️❤️
 </div>
 
 <script>
-let slides=[
-"IMG_20251231_104356_857.jpg",
-"IMG_20251231_104413_784.jpg",
-"IMG_20251231_104418_824.jpg",
-"IMG_20251231_110514_060.jpg",
-"IMG_20251231_110529_364.jpg",
-"IMG_20251231_104401_253.jpg",
-"IMG_20251231_104433_866.jpg"
-];
-let index=0;
-
-function slide(n){
-  index=(index+n+slides.length)%slides.length;
-  document.getElementById("slideImg").src=slides[index];
-}
-
+/* Navigation */
 function goTo(n,play){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("p"+n).classList.add("active");
@@ -232,13 +213,11 @@ function goTo(n,play){
   if(n===2){
     let name=document.getElementById("nameInput").value||"My Love";
     document.getElementById("wishText").innerHTML=
-    `I love you ${name} 💍<br>May this New Year bring us forever together ❤️`;
+    `I love you ${name} 💍<br>May this New Year keep us together forever ❤️`;
     if(play) document.getElementById("music").play();
   }
 
-  if(n===7){
-    startFireworks();
-  }
+  if(n===7) startFireworks();
 }
 
 function checkKiss(){
@@ -260,22 +239,92 @@ document.addEventListener("click",e=>{
   setTimeout(()=>h.remove(),2000);
 });
 
-/* Fireworks */
+/* Slider */
+let slides=[
+"IMG_20251231_104356_857.jpg",
+"IMG_20251231_104413_784.jpg",
+"IMG_20251231_104418_824.jpg",
+"IMG_20251231_110514_060.jpg",
+"IMG_20251231_110529_364.jpg",
+"IMG_20251231_104401_253.jpg",
+"IMG_20251231_104433_866.jpg"
+];
+let index=0;
+function slide(n){
+  index=(index+n+slides.length)%slides.length;
+  document.getElementById("slideImg").src=slides[index];
+}
+
+/* REAL FIREWORKS */
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
-canvas.width=innerWidth; canvas.height=innerHeight;
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let fireworks=[], particles=[], running=false;
+
+class Firework{
+  constructor(){
+    this.x=Math.random()*canvas.width;
+    this.y=canvas.height;
+    this.targetY=Math.random()*canvas.height/2;
+    this.color=`hsl(${Math.random()*360},100%,60%)`;
+  }
+  update(){
+    this.y-=5;
+    if(this.y<=this.targetY){
+      explode(this.x,this.y,this.color);
+      return true;
+    }
+    return false;
+  }
+  draw(){
+    ctx.fillStyle=this.color;
+    ctx.fillRect(this.x,this.y,3,6);
+  }
+}
+
+class Particle{
+  constructor(x,y,color){
+    this.x=x;this.y=y;
+    this.color=color;
+    this.angle=Math.random()*Math.PI*2;
+    this.speed=Math.random()*6+2;
+    this.life=60;
+  }
+  update(){
+    this.x+=Math.cos(this.angle)*this.speed;
+    this.y+=Math.sin(this.angle)*this.speed;
+    this.speed*=0.95;
+    this.life--;
+  }
+  draw(){
+    ctx.fillStyle=this.color;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,2,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+
+function explode(x,y,color){
+  for(let i=0;i<60;i++) particles.push(new Particle(x,y,color));
+}
+
+function animate(){
+  if(!running) return;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(Math.random()<0.05) fireworks.push(new Firework());
+
+  fireworks=fireworks.filter(f=>{f.draw();return !f.update();});
+  particles=particles.filter(p=>{p.update();p.draw();return p.life>0;});
+
+  requestAnimationFrame(animate);
+}
 
 function startFireworks(){
-  setInterval(()=>{
-    let x=Math.random()*canvas.width;
-    let y=Math.random()*canvas.height/2;
-    for(let i=0;i<30;i++){
-      ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
-      ctx.beginPath();
-      ctx.arc(x+Math.random()*100-50,y+Math.random()*100-50,2,0,Math.PI*2);
-      ctx.fill();
-    }
-  },600);
+  if(running) return;
+  running=true;
+  animate();
 }
 </script>
 
