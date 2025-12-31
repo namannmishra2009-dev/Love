@@ -3,148 +3,249 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy New Year My Love ❤️</title>
+<title>Happy New Year ❤️</title>
+
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at top, #ff9a9e, #fad0c4);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-family: "Poppins", sans-serif;
-  }
+body{
+  margin:0;
+  height:100vh;
+  font-family:"Poppins",sans-serif;
+  overflow:hidden;
+  background:#000;
+}
 
-  h1 {
-    font-size: 3em;
-    color: white;
-    text-shadow: 0 0 20px #ff4d6d, 0 0 40px #ff4d6d;
-    animation: glow 2s infinite alternate;
-  }
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+  transition:opacity 1s ease;
+}
 
-  h2 {
-    color: #fff;
-    font-weight: 400;
-    text-align: center;
-    margin-top: 10px;
-    animation: fadeIn 3s ease-in-out;
-  }
+.hidden{
+  opacity:0;
+  pointer-events:none;
+}
 
-  @keyframes glow {
-    from { text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d; }
-    to { text-shadow: 0 0 30px #ff99ac, 0 0 60px #ff4d6d; }
-  }
+/* MOON TRANSITION */
+#moonOverlay{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at center, #fff 0%, #ddd 20%, #555 40%, #000 70%);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  z-index:999;
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.moon{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 30px #fff, 0 0 60px #fff;
+  animation:moonGlow 3s ease;
+}
 
-  .heart {
-    position: absolute;
-    bottom: 0;
-    width: 20px;
-    height: 20px;
-    background: red;
-    transform: rotate(45deg);
-    animation: floatUp 6s linear infinite;
-  }
+@keyframes moonGlow{
+  0%{transform:scale(0.6);opacity:0;}
+  50%{transform:scale(1);opacity:1;}
+  100%{transform:scale(1.2);opacity:0;}
+}
 
-  .heart::before,
-  .heart::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: red;
-    border-radius: 50%;
-  }
+/* SCREEN 1 */
+#inputScreen{
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+}
 
-  .heart::before { top: -10px; left: 0; }
-  .heart::after { left: -10px; top: 0; }
+.box{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  width:85%;
+  max-width:350px;
+}
 
-  @keyframes floatUp {
-    0% {
-      transform: translateY(0) rotate(45deg);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-800px) rotate(45deg);
-      opacity: 0;
-    }
-  }
+input{
+  width:90%;
+  padding:12px;
+  border-radius:25px;
+  border:1px solid #ddd;
+  text-align:center;
+}
 
-  #message {
-    color: white;
-    font-size: 1.2em;
-    width: 80%;
-    text-align: center;
-    line-height: 1.5;
-    margin-top: 20px;
-    animation: fadeIn 5s ease-in-out;
-  }
+button{
+  margin-top:20px;
+  padding:12px 30px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+}
 
-  .button {
-    margin-top: 30px;
-    background: #fff;
-    color: #ff4d6d;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 30px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+/* SCREEN 2 */
+#giftScreen{
+  background:radial-gradient(circle at top,#ff9a9e,#fad0c4);
+}
 
-  .button:hover {
-    background: #ff4d6d;
-    color: #fff;
-    box-shadow: 0 0 20px #ff4d6d;
-  }
+.gift{
+  font-size:6rem;
+  cursor:pointer;
+  animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+}
+
+/* SCREEN 3 */
+#poemScreen{
+  background:radial-gradient(circle at bottom,#0f2027,#203a43,#2c5364);
+  color:white;
+}
+
+.poem{
+  max-width:700px;
+  font-size:1.15em;
+  line-height:1.8;
+  white-space:pre-line;
+  z-index:2;
+}
+
+/* STARS */
+.star{
+  position:absolute;
+  background:white;
+  border-radius:50%;
+  animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+  from{opacity:0.3;}
+  to{opacity:1;}
+}
+
+/* TAP HEARTS */
+.tap-heart{
+  position:absolute;
+  font-size:1.5rem;
+  animation:rise 2s ease-out forwards;
+  pointer-events:none;
+}
+
+@keyframes rise{
+  from{transform:translateY(0) scale(1);opacity:1;}
+  to{transform:translateY(-120px) scale(1.8);opacity:0;}
+}
 </style>
 </head>
 <body>
 
-<h1>🎆 Happy New Year My Future Wife ❤️</h1>
-<h2>To the one who’ll hold my heart forever 💞</h2>
-
-<div id="message">
-  As this new year begins, I just want to promise you —<br>
-  every sunrise will bring more love, every sunset will bring more peace,<br>
-  and every heartbeat will whisper your name. 💖<br><br>
-  I can’t wait to celebrate every New Year with you, hand in hand, forever. ✨
+<!-- MOON OVERLAY -->
+<div id="moonOverlay">
+  <div class="moon"></div>
 </div>
 
-<button class="button" onclick="showLove()">💌 Tap for a Surprise</button>
-
+<!-- MUSIC -->
 <audio id="bgMusic" loop>
-  <!-- Add your music file link here -->
-  <!-- Example: <source src="yourmusic.mp3" type="audio/mp3"> -->
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_91c6b45f52.mp3">
 </audio>
 
-<script>
-  // Floating hearts generator
-  function createHeart() {
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.animationDuration = (3 + Math.random() * 3) + 's';
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 6000);
-  }
-  setInterval(createHeart, 300);
+<!-- SCREEN 1 -->
+<div class="screen" id="inputScreen">
+  <div class="box">
+    <h2>Hello Beautiful ❤️</h2>
+    <input id="nameInput" placeholder="Your name 💖">
+    <br>
+    <button onclick="transition(goToGift)">Next ➜</button>
+  </div>
+</div>
 
-  // Surprise message + music
-  function showLove() {
-    const msg = document.getElementById('message');
-    msg.innerHTML = "💍 I can’t wait for the day I call you my wife. 💖<br>Happy New Year, my forever love! 🌙✨";
-    msg.style.fontSize = "1.4em";
-    msg.style.fontWeight = "bold";
-    const music = document.getElementById('bgMusic');
-    music.play().catch(() => alert("Please enable sound to hear the surprise ❤️"));
+<!-- SCREEN 2 -->
+<div class="screen hidden" id="giftScreen">
+  <div class="gift" onclick="transition(openGift)">🎁</div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen hidden" id="poemScreen">
+  <div class="poem">
+Naye saal ki pehli raat ho 🌙  
+Aur meri baahon mein sirf tum ho 🤍  
+
+Tumhari saanson ki garmi mein,  
+Meri poori duniya gum ho 💫  
+
+Tumhara chehra itna paas ho 😊  
+Ke alfaaz bhi sharma jaayein 🙈  
+
+Honth dheere se chhoo lein ek-dooje ko 💞  
+Aur waqt wahi thamm jaaye ⏳  
+
+Is naye saal main tumse bas itna kahun 💖  
+Apni poori zindagi mere naam kar do 💍  
+
+Har subah meri baahon mein jaago 🌸  
+Aur hamesha ke liye meri ban jao ♾️❤️
+  </div>
+</div>
+
+<script>
+function transition(callback){
+  moonOverlay.style.opacity="1";
+  setTimeout(()=>{
+    moonOverlay.style.opacity="0";
+    callback();
+  },3000);
+}
+
+function goToGift(){
+  if(!nameInput.value.trim()){
+    alert("Please enter your name ❤️");
+    return;
   }
+  inputScreen.classList.add("hidden");
+  giftScreen.classList.remove("hidden");
+}
+
+function openGift(){
+  giftScreen.classList.add("hidden");
+  poemScreen.classList.remove("hidden");
+  bgMusic.play().catch(()=>{});
+  createStars();
+}
+
+function createStars(){
+  for(let i=0;i<120;i++){
+    const s=document.createElement("div");
+    s.className="star";
+    const size=Math.random()*2+1;
+    s.style.width=size+"px";
+    s.style.height=size+"px";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    poemScreen.appendChild(s);
+  }
+}
+
+document.addEventListener("click",e=>{
+  if(!poemScreen.classList.contains("hidden")){
+    const h=document.createElement("div");
+    h.className="tap-heart";
+    h.innerHTML="💖";
+    h.style.left=e.clientX+"px";
+    h.style.top=e.clientY+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),2000);
+  }
+});
 </script>
 
 </body>
